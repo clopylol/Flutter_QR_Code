@@ -15,9 +15,7 @@
 
 ## Uygulamanın Görüntüleri :
 ---
-
-⏳ ⏳ ⏳ 
- 
+![Flutter_QR_Berkay](https://user-images.githubusercontent.com/37087597/114306359-7325a500-9ae4-11eb-8c2d-0c0d6471a2c9.png)
 
 ---
 ###  🎯 To-Do :
