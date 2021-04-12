@@ -132,6 +132,7 @@ class _ScannerPageState extends State<ScannerPage> {
     }
   }
 
+  // Okunan linkin açılması için bir onay alalım.
   _showAlertDialog({String responseUrl}) async {
     return await showDialog(
         context: context,
@@ -141,9 +142,27 @@ class _ScannerPageState extends State<ScannerPage> {
               "Sayfa Açılsın Mı ?",
               style: TextStyle(color: colorSecondary),
             ),
-            //Ürün adını da sor.
-            content:
-                Text(""""$responseUrl" sayfasını açmak istiyor musunuz ?"""),
+            content: RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: '$responseUrl',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: colorPrimary,
+                      fontSize: 16,
+                    ),
+                  ),
+                  TextSpan(
+                    text: ' sayfasını açmak istiyor musunuz ?',
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black87,
+                        fontStyle: FontStyle.normal),
+                  ),
+                ],
+              ),
+            ),
             actions: [
               TextButton(
                 child: Text(
@@ -160,9 +179,8 @@ class _ScannerPageState extends State<ScannerPage> {
                   style: TextStyle(color: colorPrimary),
                 ),
                 onPressed: () {
-                  // TODO: Eğer kullanıcı onay verirse, ürünü db den sil
                   setState(() {
-                    _launchURL(url: responseUrl);
+                    _launchURL(url: responseUrl); // URL'e yönlendir.
                   });
                   Navigator.of(context).pop();
                 },
