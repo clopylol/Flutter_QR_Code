@@ -3,6 +3,7 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_qrcode_v1/helpers/styles/color_style.dart';
 import 'package:flutter_qrcode_v1/widgets/bottomAppBar/bottom_app_bar_widget.dart';
 import 'package:flutter_qrcode_v1/widgets/bottomAppBar/floatting_action_button_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ScannerPage extends StatefulWidget {
   ScannerPage({Key key}) : super(key: key);
@@ -56,7 +57,7 @@ class _ScannerPageState extends State<ScannerPage> {
     );
   }
 
-  //Scanner Page QR Code Reader Button
+  //Scanner Page QR Code Okuyucuyu Açan Button
   Widget scannerPageElevatedButton({@required String buttonText}) {
     return ElevatedButton(
       onPressed: () async {
@@ -64,6 +65,9 @@ class _ScannerPageState extends State<ScannerPage> {
             "#ff6666", "İPTAL", true, ScanMode.QR);
         setState(() {
           qrCodeResult = qrCodeScanner;
+
+          //Sayfayı açıp açmadığına dair kullanıcıdan bir onay alalım.
+          _showAlertDialog(responseUrl: qrCodeResult);
         });
       },
       child: Text('$buttonText'),
@@ -73,7 +77,7 @@ class _ScannerPageState extends State<ScannerPage> {
     );
   }
 
-  ////Scanner Page App Bar
+  // Scanner Page App Bar
   Widget scannerPageAppBar({String appBarTitle}) {
     return AppBar(
       title: Text('$appBarTitle'),
@@ -82,7 +86,7 @@ class _ScannerPageState extends State<ScannerPage> {
     );
   }
 
-  //Scanner Page Başlık Altındaki Divider
+  // Scanner Page Başlık Altındaki Divider
   Widget scannerPageDivider() {
     return Divider(
       thickness: 2,
@@ -92,7 +96,7 @@ class _ScannerPageState extends State<ScannerPage> {
     );
   }
 
-  //Scanner Page Başlık.
+  // Scanner Page Başlık.
   Widget scannerPageTitle({String title}) {
     return Text(
       '$title',
@@ -101,7 +105,6 @@ class _ScannerPageState extends State<ScannerPage> {
     );
   }
 
-  //QR Kod için kamera açıldıktan sonra eğer kod okunursa kodun içeriğini döndür, eğer geri buttonuna tıklanırsa -1 dönüyor.
   Widget scannerPageResult() {
     return qrCodeResult == "-1"
         ? Text(
@@ -118,5 +121,54 @@ class _ScannerPageState extends State<ScannerPage> {
                 .headline6
                 .copyWith(color: colorPrimary),
           );
+  }
+
+  // Okunan QR Code eğer bir linkse tarayıcıda açmamızı sağlayacak.
+  _launchURL({String url}) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  _showAlertDialog({String responseUrl}) async {
+    return await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              "Sayfa Açılsın Mı ?",
+              style: TextStyle(color: colorSecondary),
+            ),
+            //Ürün adını da sor.
+            content:
+                Text(""""$responseUrl" sayfasını açmak istiyor musunuz ?"""),
+            actions: [
+              TextButton(
+                child: Text(
+                  "İPTAL",
+                  style: TextStyle(color: colorSecondary),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: Text(
+                  "EVET",
+                  style: TextStyle(color: colorPrimary),
+                ),
+                onPressed: () {
+                  // TODO: Eğer kullanıcı onay verirse, ürünü db den sil
+                  setState(() {
+                    _launchURL(url: responseUrl);
+                  });
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
   }
 }

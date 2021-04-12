@@ -20,7 +20,7 @@
 ---
 ###  🎯 To-Do :
 
-- [ ] Okunan QR Kod eğer bir url'se oraya yönlendir.
+- [X] Okunan QR Kod eğer bir url'se oraya yönlendir.
 - [ ] Bottom Navigation Bar üzerinden yönlendirme işlemi.
 - [ ] Oluşturulan QR Kodu cihaza kayıt etme özelliği.
 

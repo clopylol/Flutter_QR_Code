@@ -25,9 +25,9 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  qr_flutter: ^4.0.0 #QR Code oluşturmak için kullanıldı.
-  flutter_barcode_scanner: ^1.0.2 #QR Code taramak için kullanıldı.
-
+  qr_flutter: ^4.0.0 # QR Code oluşturmak için kullanıldı.
+  flutter_barcode_scanner: ^1.0.2 # QR Code taramak için kullanıldı.
+  url_launcher: ^6.0.3 # Okunan QR Code eğer bir linkse, o linki açmamızı sağlayacak.
 dev_dependencies:
   flutter_test:
     sdk: flutter
