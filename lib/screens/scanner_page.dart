@@ -128,7 +128,7 @@ class _ScannerPageState extends State<ScannerPage> {
     if (await canLaunch(url)) {
       await launch(url);
     } else {
-      throw 'Could not launch $url';
+      throw '$url böyle bir link bulunamadı !';
     }
   }
 
